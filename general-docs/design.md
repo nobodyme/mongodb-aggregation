@@ -12,5 +12,7 @@
 - to represent more complex many-to-many relationships.
 - to model large hierarchical data sets.
 
+### Other related links
+
 - [Model Relationships between documents](https://docs.mongodb.com/manual/applications/data-models-relationships/)
 - [Go through this as well](https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-1)
