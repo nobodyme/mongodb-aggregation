@@ -46,20 +46,19 @@ app.post('/createcommunity', async (req, res) => {
 app.post('/joincommunity', async (req, res) => {
 
 	const name = req.body.communityname;
-	const email = req.body.useremail;
+	const userId = req.body.userId;
 
-	if (!name || !email) {
+	if (!name || !userId) {
 		return res.status(400).json({ error: 'invalid data' });
 	}
 
 	try {
-		const person = await User.findOne({ email });
 		const community = await Community.findOne({ name });
-		community.members.push(person);
+		community.members.push(userId);
 		const modifiedCommunity = await community.save();
-		res.status(200).json({ community: modifiedCommunity });
+		return res.status(200).json({ community: modifiedCommunity });
 	} catch (err) {
-		res.status(400).json({ error: err.message });
+		return res.status(400).json({ error: err.message });
 	}
 });
 
@@ -74,9 +73,9 @@ app.get('/listusercommunity', async (req, res) => {
 
 	try {
 		const communities = await Community.find({}, { name: 1, _id: 0, members: 0 }).populate({ path: 'members', email });
-		res.status(200).json(communities);
+		return res.status(200).json(communities);
 	} catch (err) {
-		res.status(400).json({ error: err.message });
+		return res.status(400).json({ error: err.message });
 	}
 });
 
@@ -91,9 +90,9 @@ app.get('/listcommunitymembers', async (req, res) => {
 
 	try {
 		const members = await Community.find({ name }, { members: 1, _id: 0 }).populate('members');
-		res.status(200).json(members);
+		return res.status(200).json(members);
 	} catch (err) {
-		res.status(400).json({ error: err.message });
+		return res.status(400).json({ error: err.message });
 	}
 });
 app.listen(3000, () => console.log('server is running'));
